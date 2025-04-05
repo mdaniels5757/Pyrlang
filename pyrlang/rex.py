@@ -16,7 +16,7 @@ import traceback
 
 from pyrlang.gen.server import GenServer
 from pyrlang.gen.decorators import call, cast, info
-from term.atom import Atom
+from term import Atom, Pid
 
 LOG = logging.getLogger(__name__)
 
@@ -42,7 +42,11 @@ class Rex(GenServer):
 
     @info(1, lambda msg: True)
     def handle_info(self, msg):
-        LOG.error("rex unhandled info msg: %s", msg)
+        if type(msg) == tuple and len(msg) == 2 and type(msg[0]) == Pid and msg[1] == Atom('features_request'):
+            self.get_node().send_nowait(sender = self.pid_, receiver = msg[0], message = [])
+        else:
+            LOG.error("rex unhandled info msg: %s", msg)
+            LOG.error(f"type: {type(msg)}; len: {len(msg)}")
 
 
 def act_on_msg(msg):
