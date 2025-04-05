@@ -196,8 +196,11 @@ class BaseDistProtocol(asyncio.Protocol):
 
         if self.peer_name_ is not None:
             #self._inform_local_node(("node_disconnected", self.peer_name_))
-            n = self.node_db.get(self.node_name_)
-            n.unregister_dist_node(self.addr_)
+            try:
+                n = self.node_db.get(self.node_name_)
+                n.unregister_dist_node(self.addr_)
+            except AttributeError:
+                pass
 
     def _inform_local_node(self, msg):
         self.get_node().inbox_.put_nowait(msg)

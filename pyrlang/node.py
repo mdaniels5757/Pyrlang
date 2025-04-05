@@ -14,6 +14,7 @@
 import asyncio
 import logging
 import sys
+from time import sleep
 from typing import Dict, Set
 
 from pyrlang.dist_proto import DistributionFlags, ErlangDistribution
@@ -634,6 +635,9 @@ class Node:
         all_processes = copy.copy(self.processes_)
         for p in all_processes.values():
             p.exit(Atom('killed'))
+        
+        sleep(1)
+
         self.processes_.clear()
         self.reg_names_.clear()
 

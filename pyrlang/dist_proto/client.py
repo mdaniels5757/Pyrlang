@@ -102,6 +102,11 @@ class DistClientProtocol(BaseDistProtocol):
         if data.startswith(b'sok'):
             self.state_ = self.RECV_CHALLENGE
             return data[3:]  # cut after b'sok'
+        
+        # TODO: bad? -- MD
+        if data.startswith(b'snok'):
+            self.state_ = self.RECV_CHALLENGE
+            return data[4:]  # cut after b'snok'
 
         return self.raise_protocol_error("Handshake bad status: %r" % data)
 
