@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 PKGNAME = 'pyrlang'
-VERSION = '0.12-alpha'
+VERSION = '0.12-alpha1'
 DESCRIPTION = 'Erlang Node implemented in Python using asyncio'
 AUTHOR = 'Erlang Solutions Ltd and S2HC Sweden AB'
 AUTHOR_EMAIL = 'dmytro.lytovchenko@gmail.com,pyrlang@s2hc.com'
