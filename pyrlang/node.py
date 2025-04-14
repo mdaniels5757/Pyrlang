@@ -636,10 +636,15 @@ class Node:
         for p in all_processes.values():
             p.exit(Atom('killed'))
         
-        sleep(1)
+        tasks = asyncio.all_tasks(loop = self._event_loop)
+        for task in tasks:
+            task.cancel()
+        sleep(0.2)
 
         self.processes_.clear()
         self.reg_names_.clear()
+        
+        sleep(0.2)
 
         for dproto in self.dist_nodes_.values():
             dproto.destroy()
@@ -648,7 +653,11 @@ class Node:
         self.dist_.destroy()
         self.node_db.remove(self.node_name_)
         self.__completed_future.set_result(True)
+        self._event_loop.stop()
+        sleep(0.2)
         del self
+        # sys.exit(0)
+
 
     def exit_process(self, sender, receiver, reason):
         """ Delivers exit message to a local or remote process. """
@@ -697,4 +706,5 @@ class Node:
         return self._event_loop
 
     def run(self):
+        # self._event_loop.run_forever()
         self._event_loop.run_until_complete(self.__completed_future)
