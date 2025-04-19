@@ -288,6 +288,8 @@ class Node:
             LOG.info("Send local reg=%s receiver=%s msg=%s",
                      receiver, receiver_obj, message)
             receiver_obj.deliver_message(msg=message)
+        elif receiver == Atom("global_name_server"):
+            pass # Ignore this.
         else:
             LOG.warning("Send to unknown %s ignored", receiver)
 
