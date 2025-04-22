@@ -120,3 +120,6 @@ ENV/
 # Pyre Typecheck
 /.pyre_configuration
 /.pyre
+
+# Something Will has?
+gmon.out
